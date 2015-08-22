@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <ImageView
+        android:id="@+id/detailBackdropImage"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@string/movie_image_name"/>
+
+    <TextView
+        android:id="@+id/detailTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:text="@string/hello_world"
+        android:textColor="@color/white"
+        android:layout_margin="15dp"
+        android:layout_alignBottom="@+id/detailBackdropImage"/>
+
+    <RatingBar
+        android:id="@+id/detailRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/movie_item_margin"
+        android:isIndicator="true"
+        android:layout_below="@+id/detailBackdropImage" />
+
+    <TextView
+        android:id="@+id/detailReleaseDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world"
+        android:textColor="@color/text"
+        android:layout_below="@+id/detailRatingBar"
+        android:layout_margin="@dimen/movie_item_margin" />
+
+    <TextView
+        android:id="@+id/detailOverviewTextView"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/hello_world"
+        android:textColor="@color/secondaryText"
+        android:layout_below="@+id/detailReleaseDate"
+        android:layout_margin="@dimen/movie_item_margin" />
+
+</RelativeLayout>
