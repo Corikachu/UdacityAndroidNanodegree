@@ -1,13 +1,13 @@
 package com.example.corikachu.popularmoviesapp;
 
-import android.support.annotation.Nullable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
 
 /**
  * Movie Data
  */
-public class MovieData implements Serializable {
+public class MovieData implements Parcelable {
 
     private int id;
     private String title;
@@ -15,6 +15,35 @@ public class MovieData implements Serializable {
     private double voteAverage;
     private String releaseDate;
     private String backdropPath;
+
+    public MovieData(){
+
+    }
+
+    public MovieData(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        overview = in.readString();
+        voteAverage = in.readDouble();
+        releaseDate = in.readString();
+        backdropPath = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(overview);
+        dest.writeDouble(voteAverage);
+        dest.writeString(releaseDate);
+        dest.writeString(backdropPath);
+    }
+
 
     public int getId() {
         return id;
@@ -24,7 +53,6 @@ public class MovieData implements Serializable {
         this.id = id;
     }
 
-    @Nullable
     public String getTitle() {
         return title;
     }
@@ -64,4 +92,16 @@ public class MovieData implements Serializable {
     public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
     }
+
+    public static final Creator<MovieData> CREATOR = new Creator<MovieData>() {
+        @Override
+        public MovieData createFromParcel(Parcel in) {
+            return new MovieData(in);
+        }
+
+        @Override
+        public MovieData[] newArray(int size) {
+            return new MovieData[size];
+        }
+    };
 }

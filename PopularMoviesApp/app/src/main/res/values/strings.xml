@@ -5,4 +5,11 @@
     <string name="sort_most_popular">Sort Popularity</string>
     <string name="sort_highest_rated">Sort Rating</string>
     <string name="movie_image_name">Movie Poster</string>
+
+    <!-- State Bundle Key -->
+    <string name="movie_list_key">movie_list_key</string>
+
+    <!-- SharedPreferences -->
+    <string name="pref_sort_key">last_sort</string>
+    <string name="pref_sort_default">popularity.desc</string>
 </resources>

@@ -44,8 +44,7 @@ public class DetailFragment extends Fragment {
 
         //Get Data from intent
         Intent intent = getActivity().getIntent();
-        Bundle bundle = intent.getExtras();
-        MovieData data = (MovieData)bundle.getSerializable("movieData");
+        MovieData data = intent.getParcelableExtra(getString(R.string.movie_list_key));
 
         //Set contents.
         Glide.with(this).load(data.getBackdropPath()).into(backdropImage);
