@@ -36,6 +36,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     private ArrayList<MovieData> data;
     private Activity activity;
     private Context context;
+    private boolean twoPane;
 
     public CardViewAdapter(ArrayList<MovieData> data, Activity activity){
         this.data = data;
@@ -70,10 +71,21 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
         // Set click listener
         holder.itemView.setOnClickListener( v -> {
-            Intent intent = new Intent(context, DetailActivity.class);
-            intent.putExtra(context.getString(R.string.movie_list_key), movieData);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
+            if(twoPane){
+                Bundle arguments = new Bundle();
+                arguments.putParcelable(context.getString(R.string.movie_list_key), movieData);
+                DetailFragment fragment = new DetailFragment();
+                fragment.setArguments(arguments);
+                activity.getFragmentManager().beginTransaction()
+                        .replace(R.id.detailFragment, fragment)
+                        .commit();
+
+            } else {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra(context.getString(R.string.movie_list_key), movieData);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
         });
     }
 
@@ -101,4 +113,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
         }
     }
 
+    public void setTwoPane(boolean twoPane) {
+        this.twoPane = twoPane;
+    }
 }

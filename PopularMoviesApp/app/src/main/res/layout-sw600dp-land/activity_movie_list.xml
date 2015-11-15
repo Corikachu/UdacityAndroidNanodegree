@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:baselineAligned="false">
+
+    <!-- "Fragment A" -->
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.example.corikachu.popularmoviesapp.ui.movies.MovieListFragments"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:context="${relativePackage}.${activityClass}"
+        tools:layout="@layout/fragment_movie_list" />
+
+    <!-- "Fragment B" -->
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.corikachu.popularmoviesapp.ui.details.DetailFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        tools:context="${relativePackage}.${activityClass}"
+        tools:layout="@layout/fragment_movie_detail"
+        android:visibility="gone"/>
+
+</LinearLayout>

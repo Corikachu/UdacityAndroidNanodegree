@@ -2,6 +2,7 @@ package com.example.corikachu.popularmoviesapp.ui.details;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
 import android.transition.Fade;
 import android.transition.Slide;
