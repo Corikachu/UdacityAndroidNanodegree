@@ -8,8 +8,10 @@ package com.example.corikachu.popularmoviesapp.utils;
  */
 public interface MovieAPIConstants {
 
-    String THEMOVIEDB_API_KEY = "[PRIVATE KEY]";
+//    String THEMOVIEDB_API_KEY = "[PRIVATE KEY]";
+    String THEMOVIEDB_API_KEY = "e62154b63b41fec8aca2831fe1141d00";
     String API_BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
+    String API_MOVIE_URL = "http://api.themoviedb.org/3/movie/";
     String API_IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w500/";
 
     String QUERY_API_KEY = "api_key=";

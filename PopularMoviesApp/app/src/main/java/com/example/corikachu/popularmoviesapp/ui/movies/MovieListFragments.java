@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.corikachu.popularmoviesapp.ApplicationController;
 import com.example.corikachu.popularmoviesapp.MovieData;
 import com.example.corikachu.popularmoviesapp.R;
+import com.example.corikachu.popularmoviesapp.utils.Favorite;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +41,7 @@ public class MovieListFragments extends Fragment {
 
     private static final String TAG = MovieListFragments.class.getSimpleName();
     private ArrayList<MovieData> movieDataArrayList = new ArrayList<>();
-    private CardViewAdapter adapter;
+    public static CardViewAdapter adapter;
 
     private ProgressDialog mProgressDialog;
 
@@ -75,7 +76,6 @@ public class MovieListFragments extends Fragment {
         // Set CardView List Adapter.
         adapter = new CardViewAdapter(movieDataArrayList, getActivity());
         recyclerView.setAdapter(adapter);
-
         return view;
     }
 
@@ -100,6 +100,40 @@ public class MovieListFragments extends Fragment {
         } else if (id == R.id.sort_highest_rated) {
             requestAPIQuery(HIGHEST_RATED);
             return true;
+        } else if (id == R.id.sort_favorite){
+            movieDataArrayList.clear();
+
+            Favorite favorite = new Favorite(getActivity().getApplicationContext());
+            ArrayList<String> arrayList = favorite.load();
+
+            for(int i = 0 ; i <arrayList.size() ; i++){
+                String queryUrl = API_MOVIE_URL + arrayList.get(i) + "?" + QUERY_API_KEY + THEMOVIEDB_API_KEY;
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, queryUrl, null,
+                        new Response.Listener<JSONObject>(){
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                MovieData item = new MovieData();
+                                try {
+                                    String backdropPath = API_IMAGE_BASE_URL + response.getString("backdrop_path");
+                                    item.setBackdropPath(backdropPath);
+                                    item.setId(response.getInt("id"));
+                                    item.setOverview(response.getString("overview"));
+                                    item.setReleaseDate(response.getString("release_date"));
+                                    item.setTitle(response.getString("title"));
+                                    item.setVoteAverage(response.getDouble("vote_average"));
+                                    movieDataArrayList.add(item);
+                                    adapter.notifyDataSetChanged();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, error ->
+                        VolleyLog.d(TAG, "ERROR : " + error.getMessage())
+                );
+                ApplicationController.getInstance().addToRequestQueue(jsonObjectRequest);
+            }
+            adapter.notifyDataSetChanged();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -118,8 +152,6 @@ public class MovieListFragments extends Fragment {
         @Override
         public void onResponse(JSONObject response) {
 
-            showProgressDialog();
-
             try {
                 movieDataArrayList.clear();
                 JSONArray jsonArray = response.getJSONArray("results");
@@ -128,8 +160,7 @@ public class MovieListFragments extends Fragment {
 
                     MovieData item = new MovieData();
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    String backdropPath = API_IMAGE_BASE_URL+jsonObject.getString("backdrop_path");
+                    String backdropPath = API_IMAGE_BASE_URL + jsonObject.getString("backdrop_path");
                     item.setBackdropPath(backdropPath);
                     item.setId(jsonObject.getInt("id"));
                     item.setOverview(jsonObject.getString("overview"));
@@ -139,13 +170,14 @@ public class MovieListFragments extends Fragment {
 
                     movieDataArrayList.add(item);
                 }
-            }catch(JSONException e){
+                adapter.notifyDataSetChanged();
+
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
-            adapter.notifyDataSetChanged();
-            dismissProgressDialog();
         }
     }
+
 
     private void showProgressDialog() {
         if (mProgressDialog == null) {
